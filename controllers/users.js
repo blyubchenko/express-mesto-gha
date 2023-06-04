@@ -15,7 +15,7 @@ const getUserById = (req, res) => {
     .then((user) => res.status(HTTP_OK).send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(HTTP_NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден' });
+        return res.status(HTTP_BAD_REQUEST).send({ message: 'Пользователь по указанному _id не найден' });
       }
       if (err.name === 'Bad Request') {
         return res.status(HTTP_NOT_FOUND).send({ message: 'Пользователь с несуществующим в БД id' });
