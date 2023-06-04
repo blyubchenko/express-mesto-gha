@@ -12,13 +12,15 @@ const getUsers = (req, res) => {
 
 const getUserById = (req, res) => {
   User.findById(req.params.userId)
-    .then((user) => res.status(HTTP_OK).send(user))
+    .then((user) => {
+      if (!user) {
+        return res.status(HTTP_BAD_REQUEST).send({ message: 'Пользователь c указанным _id не найден в БД' });
+      }
+      return res.status(HTTP_OK).send(user);
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(HTTP_BAD_REQUEST).send({ message: 'Пользователь по указанному _id не найден' });
-      }
-      if (err.name === 'Bad Request') {
-        return res.status(HTTP_NOT_FOUND).send({ message: 'Пользователь с несуществующим в БД id' });
       }
       return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
     });
