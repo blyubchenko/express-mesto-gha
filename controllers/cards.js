@@ -17,7 +17,12 @@ const deleteCard = (req, res) => {
       }
       return res.status(HTTP_OK).send({ message: 'Карточка удалена' });
     })
-    .catch((err) => res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack }));
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        return res.status(HTTP_BAD_REQUEST).send({ message: 'Переданы некорректные данные для удаления карточки' });
+      }
+      return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
+    });
 };
 
 const postCard = (req, res) => {
@@ -35,22 +40,23 @@ const postCard = (req, res) => {
 };
 
 const addLike = (req, res) => {
-  if (!req.user._id) {
-    res.status(HTTP_BAD_REQUEST).send({ message: 'Переданы некорректные данные для постановки лайка' });
-  } else {
-    Card.findByIdAndUpdate(
-      req.params.cardId,
-      { $addToSet: { likes: req.user._id } },
-      { new: true },
-    )
-      .then((card) => {
-        if (!card) {
-          return res.status(HTTP_NOT_FOUND).send({ message: 'Передан несуществующий _id карточки' });
-        }
-        return res.status(HTTP_CREATED).send({ message: 'Лайк добавлен' });
-      })
-      .catch((err) => res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack }));
-  }
+  Card.findByIdAndUpdate(
+    req.params.cardId,
+    { $addToSet: { likes: req.user._id } },
+    { new: true },
+  )
+    .then((card) => {
+      if (!card) {
+        return res.status(HTTP_NOT_FOUND).send({ message: 'Передан несуществующий _id карточки' });
+      }
+      return res.status(HTTP_CREATED).send({ message: 'Лайк добавлен' });
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        return res.status(HTTP_BAD_REQUEST).send({ message: 'Переданы некорректные данные для постановки лайка' });
+      }
+      return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
+    });
 };
 
 const deleteLike = (req, res) => {
@@ -68,7 +74,12 @@ const deleteLike = (req, res) => {
         }
         return res.status(HTTP_OK).send({ message: 'Лайк удален' });
       })
-      .catch((err) => res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack }));
+      .catch((err) => {
+        if (err.name === 'CastError') {
+          return res.status(HTTP_BAD_REQUEST).send({ message: 'Переданы некорректные данные для удаления лайка' });
+        }
+        return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
+      });
   }
 };
 

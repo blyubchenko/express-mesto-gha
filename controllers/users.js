@@ -14,7 +14,7 @@ const getUserById = (req, res) => {
   User.findById(req.params.userId)
     .then((user) => {
       if (!user) {
-        return res.status(HTTP_BAD_REQUEST).send({ message: 'Пользователь c указанным _id не найден в БД' });
+        return res.status(HTTP_NOT_FOUND).send({ message: 'Пользователь c указанным _id не найден в БД' });
       }
       return res.status(HTTP_OK).send(user);
     })
@@ -39,12 +39,15 @@ const postUser = (req, res) => {
 
 const patchUserInfo = (req, res) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { $set: { name, about } }, { runValidators: true })
+  User.findByIdAndUpdate(req.user._id, { $set: { name, about } }, {
+    new: true,
+    runValidators: true,
+  })
     .then((user) => {
       if (!user) {
         return res.status(HTTP_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
       }
-      return res.status(HTTP_OK).send({ message: 'Пользователь успешно обновлен' });
+      return res.status(HTTP_OK).send({ message: 'Данные пользователя успешно обновлены', user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -56,12 +59,15 @@ const patchUserInfo = (req, res) => {
 
 const patchAvatar = (req, res) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { $set: { avatar } }, { runValidators: true })
+  User.findByIdAndUpdate(req.user._id, { $set: { avatar } }, {
+    new: true,
+    runValidators: true,
+  })
     .then((user) => {
       if (!user) {
         return res.status(HTTP_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
       }
-      return res.status(HTTP_OK).send({ message: 'Аватар успешно обновлен' });
+      return res.status(HTTP_OK).send({ message: 'Аватар успешно обновлен', user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {

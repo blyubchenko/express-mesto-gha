@@ -3,6 +3,7 @@ const express = require('express');
 const { PORT = 3000 } = process.env;
 const app = express();
 const mongoose = require('mongoose');
+const indexRouter = require('./routers/index');
 
 mongoose.connect('mongodb://127.0.0.1/mestodb', {
   useNewUrlParser: true,
@@ -18,11 +19,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const cardRouter = require('./routers/cards');
-const userRouter = require('./routers/users');
-
-app.use(cardRouter);
-app.use(userRouter);
+app.use(indexRouter);
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
