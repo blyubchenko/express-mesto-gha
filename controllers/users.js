@@ -47,7 +47,7 @@ const patchUserInfo = (req, res) => {
       if (!user) {
         return res.status(HTTP_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
       }
-      return res.status(HTTP_OK).send({ message: 'Данные пользователя успешно обновлены', user });
+      return res.status(HTTP_OK).send({ user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -67,7 +67,7 @@ const patchAvatar = (req, res) => {
       if (!user) {
         return res.status(HTTP_NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
       }
-      return res.status(HTTP_OK).send({ message: 'Аватар успешно обновлен', user });
+      return res.status(HTTP_OK).send({ user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
