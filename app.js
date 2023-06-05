@@ -1,10 +1,11 @@
 const express = require('express');
 
+const { PORT = 3000 } = process.env;
 const app = express();
 const mongoose = require('mongoose');
 const indexRouter = require('./routers/index');
-const { PORT, MONGODB_URI } = require('./config/config');
-
+// Автотест не пропускает при выносе пременных в config.js
+const { MONGODB_URI = 'mongodb://127.0.0.1/mestodb' } = process.env;
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
