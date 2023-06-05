@@ -7,7 +7,7 @@ const {
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => res.status(HTTP_OK).send(users))
-    .catch((err) => res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack }));
+    .catch((err) => res.status(HTTP_SERVER_ERROR).send({ message: 'На сервере произошла ошибка', err: err.message, stack: err.stack }));
 };
 
 const getUserById = (req, res) => {
@@ -22,7 +22,7 @@ const getUserById = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(HTTP_BAD_REQUEST).send({ message: 'Пользователь по указанному _id не найден' });
       }
-      return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
+      return res.status(HTTP_SERVER_ERROR).send({ message: 'На сервере произошла ошибка', err: err.message, stack: err.stack });
     });
 };
 
@@ -33,7 +33,7 @@ const postUser = (req, res) => {
       if (err.name === 'ValidationError') {
         return res.status(HTTP_BAD_REQUEST).send({ message: 'Переданы некорректные данные при создании пользователя' });
       }
-      return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
+      return res.status(HTTP_SERVER_ERROR).send({ message: 'На сервере произошла ошибка', err: err.message, stack: err.stack });
     });
 };
 
@@ -53,7 +53,7 @@ const patchUserInfo = (req, res) => {
       if (err.name === 'ValidationError') {
         return res.status(HTTP_BAD_REQUEST).send({ message: 'Переданы некорректные данные при обновлении профиля' });
       }
-      return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
+      return res.status(HTTP_SERVER_ERROR).send({ message: 'На сервере произошла ошибка', err: err.message, stack: err.stack });
     });
 };
 
@@ -73,7 +73,7 @@ const patchAvatar = (req, res) => {
       if (err.name === 'ValidationError') {
         return res.status(HTTP_BAD_REQUEST).send({ message: 'Переданы некорректные данные при обновлении аватара' });
       }
-      return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
+      return res.status(HTTP_SERVER_ERROR).send({ message: 'На сервере произошла ошибка', err: err.message, stack: err.stack });
     });
 };
 

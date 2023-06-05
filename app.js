@@ -1,11 +1,11 @@
 const express = require('express');
 
-const { PORT = 3000 } = process.env;
 const app = express();
 const mongoose = require('mongoose');
 const indexRouter = require('./routers/index');
+const { PORT, MONGODB_URI } = require('./config/config');
 
-mongoose.connect('mongodb://127.0.0.1/mestodb', {
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

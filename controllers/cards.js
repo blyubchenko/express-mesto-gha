@@ -6,7 +6,7 @@ const {
 const getCards = (req, res) => {
   Card.find({})
     .then((cards) => res.status(HTTP_OK).send(cards))
-    .catch((err) => res.status(500).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack }));
+    .catch((err) => res.status(HTTP_SERVER_ERROR).send({ message: 'На сервере произошла ошибка', err: err.message, stack: err.stack }));
 };
 
 const deleteCard = (req, res) => {
@@ -21,7 +21,7 @@ const deleteCard = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(HTTP_BAD_REQUEST).send({ message: 'Переданы некорректные данные для удаления карточки' });
       }
-      return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
+      return res.status(HTTP_SERVER_ERROR).send({ message: 'На сервере произошла ошибка', err: err.message, stack: err.stack });
     });
 };
 
@@ -35,7 +35,7 @@ const postCard = (req, res) => {
       if (err.name === 'ValidationError') {
         return res.status(HTTP_BAD_REQUEST).send({ message: 'Переданы некорректные данные при создании карточки' });
       }
-      return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
+      return res.status(HTTP_SERVER_ERROR).send({ message: 'На сервере произошла ошибка', err: err.message, stack: err.stack });
     });
 };
 
@@ -55,7 +55,7 @@ const addLike = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(HTTP_BAD_REQUEST).send({ message: 'Переданы некорректные данные для постановки лайка' });
       }
-      return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
+      return res.status(HTTP_SERVER_ERROR).send({ message: 'На сервере произошла ошибка', err: err.message, stack: err.stack });
     });
 };
 
@@ -78,7 +78,7 @@ const deleteLike = (req, res) => {
         if (err.name === 'CastError') {
           return res.status(HTTP_BAD_REQUEST).send({ message: 'Переданы некорректные данные для удаления лайка' });
         }
-        return res.status(HTTP_SERVER_ERROR).send({ message: 'Ошибка по-умолчанию', err: err.message, stack: err.stack });
+        return res.status(HTTP_SERVER_ERROR).send({ message: 'На сервере произошла ошибка', err: err.message, stack: err.stack });
       });
   }
 };
