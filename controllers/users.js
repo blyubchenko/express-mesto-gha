@@ -41,7 +41,12 @@ const postUser = (req, res, next) => {
       email: req.body.email,
       password: hash,
     }))
-    .then((user) => res.status(HTTP_CREATED).send(user))
+    .then((user) => res.status(HTTP_CREATED).send({
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      email: user.email,
+    }))
     .catch((err) => {
       if (err.code === 11000) {
         throw new ConflictError('Пользователь c указанным Email уже зарегистрирован');
