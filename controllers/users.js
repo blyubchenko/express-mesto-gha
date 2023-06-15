@@ -49,13 +49,12 @@ const postUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.code === 11000) {
-        throw new ConflictError('Пользователь c указанным Email уже зарегистрирован');
+        return next(new ConflictError('Пользователь c указанным Email уже зарегистрирован'));
       }
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
-      } else {
-        next(err);
+        return next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
       }
+      return next(err);
     });
 };
 
