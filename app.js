@@ -7,7 +7,7 @@ const { PORT = 3000 } = process.env;
 const app = express();
 const mongoose = require('mongoose');
 const errorHandler = require('./middlewares/errorHandler');
-const routes = require('./routers/index');
+const router = require('./routers/index');
 
 const { MONGODB_URI = 'mongodb://127.0.0.1/mestodb' } = process.env;
 mongoose.connect(MONGODB_URI, {
@@ -16,7 +16,7 @@ mongoose.connect(MONGODB_URI, {
 });
 app.use(express.json());
 app.use(cookieParser());
-app.use(routes);
+app.use(router);
 app.use(errors());
 
 app.use(errorHandler);
