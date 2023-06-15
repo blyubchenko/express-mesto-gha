@@ -25,11 +25,11 @@ const getUserById = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new BadRequestError('Пользователь по указанному _id не найден');
+        next(new BadRequestError('Пользователь по указанному _id не найден'));
+      } else {
+        next(err);
       }
-      return next(err);
-    })
-    .catch(next);
+    });
 };
 
 const postUser = (req, res, next) => {
@@ -52,11 +52,11 @@ const postUser = (req, res, next) => {
         throw new ConflictError('Пользователь c указанным Email уже зарегистрирован');
       }
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Переданы некорректные данные при создании пользователя');
+        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+      } else {
+        next(err);
       }
-      return next(err);
-    })
-    .catch(next);
+    });
 };
 
 const patchUserInfo = (req, res, next) => {
@@ -73,11 +73,11 @@ const patchUserInfo = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Переданы некорректные данные при обновлении профиля');
+        next(new BadRequestError('Переданы некорректные данные при обновлении профиля'));
+      } else {
+        next(err);
       }
-      return next(err);
-    })
-    .catch(next);
+    });
 };
 
 const patchAvatar = (req, res, next) => {
@@ -94,11 +94,11 @@ const patchAvatar = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Переданы некорректные данные при обновлении аватара');
+        next(new BadRequestError('Переданы некорректные данные при обновлении аватара'));
+      } else {
+        next(err);
       }
-      return next(err);
-    })
-    .catch(next);
+    });
 };
 
 const login = (req, res, next) => {
@@ -128,9 +128,8 @@ const login = (req, res, next) => {
       return res.status(HTTP_OK).send({ token });
     })
     .catch(() => {
-      throw new UnauthorizedError('Неправильные почта или пароль');
-    })
-    .catch(next);
+      next(new UnauthorizedError('Неправильные почта или пароль'));
+    });
 };
 
 const logout = (req, res) => {
