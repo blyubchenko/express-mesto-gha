@@ -19,7 +19,7 @@ mongoose.connect(MONGODB_URI, {
 });
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(allowedCors));
+app.use(cors());
 app.use(requestLogger);
 
 app.get('/crash-test', () => {
