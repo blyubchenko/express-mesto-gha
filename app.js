@@ -6,7 +6,6 @@ const { errors } = require('celebrate');
 const { PORT = 3000 } = process.env;
 const app = express();
 const mongoose = require('mongoose');
-const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler');
 const router = require('./routers/index');
 const cors = require('./middlewares/cors');
@@ -29,6 +28,7 @@ app.get('/crash-test', () => {
 });
 
 app.use(router);
+app.use(errorLogger);
 app.use(errors());
 
 app.use(errorHandler);
