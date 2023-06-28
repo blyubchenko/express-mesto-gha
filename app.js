@@ -6,9 +6,10 @@ const { errors } = require('celebrate');
 const { PORT = 3000 } = process.env;
 const app = express();
 const mongoose = require('mongoose');
+const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler');
 const router = require('./routers/index');
-const cors = require('./middlewares/cors');
+const allowedCors = require('./utils/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { MONGODB_URI = 'mongodb://127.0.0.1/mestodb' } = process.env;
@@ -18,7 +19,7 @@ mongoose.connect(MONGODB_URI, {
 });
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors);
+app.use(cors(allowedCors));
 app.use(requestLogger);
 
 app.get('/crash-test', () => {
