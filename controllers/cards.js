@@ -5,7 +5,9 @@ const ForbiddenError = require('../errors/forbidden-err');
 const BadRequestError = require('../errors/bad-request');
 
 const getCards = (req, res, next) => {
-  Card.find({})
+  Card.find()
+    .populate('owner')
+    .populate('likes')
     .then((cards) => res.status(HTTP_OK).send(cards))
     .catch(next);
 };
@@ -52,11 +54,12 @@ const addLike = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
+    .populate('likes')
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Передан несуществующий _id карточки');
       }
-      return res.status(HTTP_CREATED).send({ message: 'Лайк добавлен' });
+      return res.status(HTTP_CREATED).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -76,11 +79,12 @@ const deleteLike = (req, res, next) => {
       { $pull: { likes: req.user._id } },
       { new: true },
     )
+      .populate('likes')
       .then((card) => {
         if (!card) {
           throw new NotFoundError('Передан несуществующий _id карточки');
         }
-        return res.status(HTTP_OK).send({ message: 'Лайк удален' });
+        return res.status(HTTP_OK).send(card);
       })
       .catch((err) => {
         if (err.name === 'CastError') {
