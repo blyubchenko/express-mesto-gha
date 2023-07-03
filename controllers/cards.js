@@ -8,7 +8,10 @@ const getCards = (req, res, next) => {
   Card.find()
     .populate('owner')
     .populate('likes')
-    .then((cards) => res.status(HTTP_OK).send(cards))
+    .then((cards) => {
+      const reversedCards = cards.reverse();
+      res.status(HTTP_OK).send(reversedCards);
+    })
     .catch(next);
 };
 
