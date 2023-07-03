@@ -38,6 +38,7 @@ const postCard = (req, res, next) => {
     ...req.body,
     owner: req.user._id,
   })
+    .populate('owner')
     .then((card) => res.status(HTTP_CREATED).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
