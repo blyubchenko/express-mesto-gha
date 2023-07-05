@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../errors/unauthorized-err');
 const config = require('../config');
+
 const { env, jwtSecret } = config;
 
 // eslint-disable-next-line consistent-return
