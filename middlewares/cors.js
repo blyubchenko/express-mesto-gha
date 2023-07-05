@@ -1,8 +1,8 @@
 const allowedCors = [
   'http://mesto.blyubchenko.nomoreparties.sbs',
   'https://mesto.blyubchenko.nomoreparties.sbs',
-  'http://localhost:3001',
-  'https://localhost:3001',
+  'http://localhost:3000',
+  'https://localhost:3000',
 ];
 
 // eslint-disable-next-line consistent-return
